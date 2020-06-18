@@ -46,4 +46,14 @@ class KeyGenerator
 
         return sprintf("%s:limiter:%s:%d:%d", $this->prefix, $customer->toString(), $intervals, $maxHits);
     }
+
+    public function getPrefixKeyPattern(): string
+    {
+        return sprintf("%s:*", $this->prefix);
+    }
+
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
 }
