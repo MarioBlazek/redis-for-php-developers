@@ -74,6 +74,14 @@ class AdvertisementService extends BaseService
 
         $this->redis->zAdd($mostPopularKey, [], 0, $advertisementKey);
 
+        $advertisementsLocationsKey = $this->keyGenerator->getLocationsKey();
+        $this->redis->geoadd(
+            $advertisementsLocationsKey,
+            $advertisement->getLocation()->getLongitude(),
+            $advertisement->getLocation()->getLatitude(),
+            $id
+        );
+
         return $this->dataMapper->mapAdvertisement($id, $data);
     }
 }

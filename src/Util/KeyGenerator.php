@@ -38,6 +38,11 @@ class KeyGenerator
         return sprintf("%s:most_popular_advertisements", $this->prefix);
     }
 
+    public function getLocationsKey(): string
+    {
+        return sprintf("%s:advertisements_locations", $this->prefix);
+    }
+
     public function getRateLimiterKey(Customer $customer, int $interval, int $maxHits): string
     {
         $minuteOfTheDay = $this->timeUtil->getMinuteOfTheDay();
