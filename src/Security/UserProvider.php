@@ -25,7 +25,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     {
         $users = [];
 
-        require __DIR__ . '/../../var/users/users.php';
+        require __DIR__ . '/users.php';
 
         if (array_key_exists($username, $users)) {
             $user = $users[$username];
@@ -33,7 +33,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
             return new User($user['id'], $user['username'], $username);
         }
 
-        throw new UsernameNotFoundException('E miki moj');
+        throw new UsernameNotFoundException('Please register first.');
     }
 
     /**

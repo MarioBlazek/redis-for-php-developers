@@ -43,8 +43,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         if (null === $credentials) {
-            // The token header was empty, authentication fails with HTTP Status
-            // Code 401 "Unauthorized"
             return null;
         }
 
@@ -53,21 +51,13 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        // Check credentials - e.g. make sure the password is valid.
-        // In case of an API token, no credential check is needed.
-
-        // Return `true` to cause authentication success
         return true;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = [
-            // you may want to customize or obfuscate the message first
             'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
-
-            // or to translate this message
-            // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
@@ -75,14 +65,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // on success, let the request continue
         return null;
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
         $data = [
-            // you might translate this message
             'message' => 'Authentication Required'
         ];
 

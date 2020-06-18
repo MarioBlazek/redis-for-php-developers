@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WelcomeController extends AbstractController
@@ -18,6 +17,6 @@ class WelcomeController extends AbstractController
             'description' => 'This is a simple Symfony project that showcases some of the Redis functionalities',
         ];
 
-        return new JsonResponse($response);
+        return $this->json($response);
     }
 }
