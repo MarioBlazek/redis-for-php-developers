@@ -25,7 +25,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     {
         $users = [];
 
-        require __DIR__ . '/users.php';
+        require __DIR__ . '/../../data/users.php';
 
         if (array_key_exists($username, $users)) {
             $user = $users[$username];

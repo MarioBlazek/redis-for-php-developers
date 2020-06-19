@@ -16,6 +16,6 @@ class CountController extends AbstractController
     {
         $count = $advertisementService->getCount();
 
-        return $this->json($count);
+        return $this->json(['count' => $count]);
     }
 }

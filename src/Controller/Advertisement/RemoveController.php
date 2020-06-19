@@ -13,7 +13,6 @@ class RemoveController extends AbstractController
      * @Route(
      *     "/advertisement/remove/{id}",
      *      methods={"GET"},
-     *      requirements={"id"="\w+"},
      *      name="mb_secure_advertisement_remove"
      * )
      */
@@ -21,8 +20,8 @@ class RemoveController extends AbstractController
     {
         $identifier = new AdvertisementId($id);
 
-        $advertisementService->remove($identifier);
+        $count = $advertisementService->remove($identifier);
 
-        return $this->json([]);
+        return $this->json(['removed' => $count]);
     }
 }

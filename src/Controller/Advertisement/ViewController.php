@@ -2,11 +2,14 @@
 
 namespace App\Controller\Advertisement;
 
+use App\Exception\AdvertisementNotFoundException;
 use App\Service\AdvertisementService;
 use App\Service\MostPopularAdvertisementService;
 use App\Util\DataMapper;
 use App\Value\AdvertisementId;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ViewController extends AbstractController
@@ -26,11 +29,15 @@ class ViewController extends AbstractController
     {
         $identifier = new AdvertisementId($id);
 
-        $advertisement = $advertisementService->getByIdentifier($identifier);
-        $mostPopularAdvertisementService->increaseRankForAdvertisement($identifier);
+        try {
+            $advertisement = $advertisementService->getByIdentifier($identifier);
+            $mostPopularAdvertisementService->increaseRankForAdvertisement($identifier);
 
-        $data = $dataMapper->serializeAdvertisement($advertisement);
+            $data = $dataMapper->serializeAdvertisement($advertisement);
 
-        return $this->json($data);
+            return $this->json($data);
+        } catch (AdvertisementNotFoundException $exception) {
+            return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        }
     }
 }

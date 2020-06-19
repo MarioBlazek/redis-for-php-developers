@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Exception\AdvertisementNotFoundException;
 use App\Value\Advertisement;
 use App\Value\AdvertisementId;
 use App\Value\CreateAdvertisement;
@@ -12,6 +13,10 @@ class AdvertisementService extends BaseService
     {
         $advertisementKey = $this->keyGenerator->getAdvertisementKey($id);
         $data = $this->redis->hGetAll($advertisementKey);
+
+        if (empty($data)) {
+            throw new AdvertisementNotFoundException();
+        }
 
         return $this->dataMapper->mapAdvertisement($id, $data);
     }
@@ -31,6 +36,10 @@ class AdvertisementService extends BaseService
 
         $list = $this->redis->lRange($advertisementsKey, $offset, $limit);
 
+        if (!is_array($list)) {
+            return [];
+        }
+
         foreach ($list as $item) {
             $datum = explode(":", $item);
             $advertisements[] = $datum[2];
@@ -39,12 +48,12 @@ class AdvertisementService extends BaseService
         return $advertisements;
     }
 
-    public function remove(AdvertisementId $id): void
+    public function remove(AdvertisementId $id): int
     {
         $advertisementKey = $this->keyGenerator->getAdvertisementKey($id);
         $advertisementsKey = $this->keyGenerator->getAdvertisementsKey();
 
-        $this->redis->lRem($advertisementsKey, $advertisementKey, 0);
+        return (int)$this->redis->lRem($advertisementsKey, $advertisementKey, 0);
     }
 
     public function create(CreateAdvertisement $advertisement): Advertisement
@@ -68,7 +77,7 @@ class AdvertisementService extends BaseService
 
         $advertisementsKey = $this->keyGenerator->getAdvertisementsKey();
 
-        $this->redis->sAdd($advertisementsKey, $advertisementKey);
+        $this->redis->lPush($advertisementsKey, $advertisementKey);
 
         $mostPopularKey = $this->keyGenerator->getMostPopularAdvertisementsKey();
 

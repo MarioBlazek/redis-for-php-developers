@@ -19,7 +19,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class InitializeCommand extends Command
 {
-    protected static $defaultName = 'app:initialize';
+    protected static $defaultName = 'app:init';
 
     /**
      * @var \App\Factory\RedisConnectionFactory
@@ -58,9 +58,7 @@ class InitializeCommand extends Command
     {
         $this
             ->setDescription('Initialises the default application data in Redis')
-            ->addArgument('count', InputArgument::OPTIONAL, 'Number of advertisements to generate', 100);
-//            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
+            ->addArgument('count', InputArgument::OPTIONAL, 'Number of advertisements to generate', 10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -99,16 +97,23 @@ class InitializeCommand extends Command
         $io->writeln("Creating fresh data.");
         $faker = Factory::create();
 
+        $progressBar = new ProgressBar($output, $count);
+        $progressBar->start();
+
         while ($count > 0) {
             $customer = Customer::generate();
             $location = new Location($faker->latitude,   $faker->longitude);
-            $info = new Info($faker->text(25), $faker->text(150), $faker->image());
+            $info = new Info($faker->text(25), $faker->text(150), 'https://placekitten.com/g/200/300');
             $createAdvertisement = new CreateAdvertisement($info, $location, $customer);
 
             $this->advertisementService->create($createAdvertisement);
 
             $count--;
+
+            $progressBar->advance();
         }
+
+        $progressBar->finish();
 
         $io->success('Done.');
 
