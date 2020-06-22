@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $users = [
     '8b8c9bb9-0723-4dfc-909b-fa1bb6c6d781' => [
         'username' => 'test@example.com',
