@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +28,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function supports(Request $request)
     {
         if (
-            strpos($request->attributes->get('_route', ''), 'mb_secure') === 0
+            mb_strpos($request->attributes->get('_route', ''), 'mb_secure') === 0
             && $request->headers->has('X-AUTH-TOKEN')
         ) {
             return true;
@@ -57,7 +59,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = [
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+            'message' => strtr($exception->getMessageKey(), $exception->getMessageData()),
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
@@ -71,7 +73,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function start(Request $request, AuthenticationException $authException = null)
     {
         $data = [
-            'message' => 'Authentication Required'
+            'message' => 'Authentication Required',
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Util;
 
-use DateTime;
 use DateTimeZone;
 
 final class TimeUtil
@@ -16,13 +17,11 @@ final class TimeUtil
 
         $diff = $date1->diff($date2);
 
-        $minutes = $diff->h * 60 + $diff->i;
-
-        return $minutes;
+        return $diff->h * 60 + $diff->i;
     }
 
-    private function getDate(): DateTime
+    private function getDate(): \DateTimeImmutable
     {
-        return new DateTime('now', new DateTimeZone('UTC'));
+        return new \DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Value;
 
 class CreateAdvertisement
@@ -26,25 +28,16 @@ class CreateAdvertisement
         $this->info = $info;
     }
 
-    /**
-     * @return Location
-     */
     public function getLocation(): Location
     {
         return $this->location;
     }
 
-    /**
-     * @return Customer
-     */
     public function getCustomer(): Customer
     {
         return $this->customer;
     }
 
-    /**
-     * @return Info
-     */
     public function getInfo(): Info
     {
         return $this->info;

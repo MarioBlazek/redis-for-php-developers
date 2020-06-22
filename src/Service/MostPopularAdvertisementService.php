@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Value\AdvertisementId;
@@ -22,7 +24,7 @@ class MostPopularAdvertisementService extends BaseService
         $advertisements = [];
 
         foreach ($list as $key => $value) {
-            $datum = explode(":", $key);
+            $datum = explode(':', $key);
             $advertisements[$datum[2]] = $value;
         }
 

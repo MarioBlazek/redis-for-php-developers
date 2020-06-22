@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -17,9 +19,12 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      * If you're not using these features, you do not need to implement
      * this method.
      *
-     * @return UserInterface
+     *
+     * @param mixed $username
      *
      * @throws UsernameNotFoundException if the user is not found
+     *
+     * @return UserInterface
      */
     public function loadUserByUsername($username)
     {
@@ -63,6 +68,8 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     /**
      * Tells Symfony to use this provider for this User class.
+     *
+     * @param mixed $class
      */
     public function supportsClass($class)
     {

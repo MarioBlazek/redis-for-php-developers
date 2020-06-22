@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Value;
 
 use Ramsey\Uuid\Uuid;
@@ -10,6 +12,16 @@ abstract class UuidId
      * @var string
      */
     private $string;
+
+    public function __construct($string)
+    {
+        $this->string = (string) $string;
+    }
+
+    public function __toString()
+    {
+        return $this->string;
+    }
 
     /**
      * @param string $string
@@ -35,15 +47,5 @@ abstract class UuidId
     public function toString()
     {
         return $this->string;
-    }
-
-    public function __toString()
-    {
-        return $this->string;
-    }
-
-    public function __construct($string)
-    {
-        $this->string = (string) $string;
     }
 }

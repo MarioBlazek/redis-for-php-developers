@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use App\Exception\ApiLimitReachedException;
@@ -17,7 +19,7 @@ class ApiLimitSubscriber extends GenericApiLimit implements EventSubscriberInter
         $request = $event->getRequest();
         $routeName = $request->attributes->get('_route');
 
-        if (!strpos($routeName, self::SECURE_ROUTE_PREFIX) === 0) {
+        if (!mb_strpos($routeName, self::SECURE_ROUTE_PREFIX) === 0) {
             return;
         }
 

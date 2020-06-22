@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Advertisement;
 
 use App\Exception\AdvertisementNotFoundException;
@@ -25,8 +27,7 @@ class ViewController extends AbstractController
         AdvertisementService $advertisementService,
         MostPopularAdvertisementService $mostPopularAdvertisementService,
         DataMapper $dataMapper, string $id
-    )
-    {
+    ) {
         $identifier = new AdvertisementId($id);
 
         try {

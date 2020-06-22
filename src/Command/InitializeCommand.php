@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Factory\RedisConnectionFactory;
@@ -45,8 +47,7 @@ class InitializeCommand extends Command
         RedisConnectionFactory $connectionFactory,
         KeyGenerator $keyGenerator,
         AdvertisementService $advertisementService
-    )
-    {
+    ) {
         parent::__construct();
         $this->connectionFactory = $connectionFactory;
         $this->keyGenerator = $keyGenerator;
@@ -76,7 +77,6 @@ class InitializeCommand extends Command
             $progressBar->start();
 
             foreach ($keys as $key) {
-
                 $this->redis->del($key);
 
                 $progressBar->advance();
@@ -85,16 +85,18 @@ class InitializeCommand extends Command
             $progressBar->finish();
         }
 
-        $count = intval($input->getArgument('count'));
+        $count = (int) ($input->getArgument('count'));
 
         if (!is_int($count)) {
-            $io->error("Valid integer needed.");
+            $io->error('Valid integer needed.');
 
             return Command::FAILURE;
         }
 
-        $io->writeln("");
-        $io->writeln("Creating fresh data.");
+        $io->writeln('');
+        $io->writeln('');
+        $io->note('Creating fresh data.');
+        $io->writeln('');
         $faker = Factory::create();
 
         $progressBar = new ProgressBar($output, $count);
@@ -102,19 +104,20 @@ class InitializeCommand extends Command
 
         while ($count > 0) {
             $customer = Customer::generate();
-            $location = new Location($faker->latitude,   $faker->longitude);
+            $location = new Location($faker->latitude, $faker->longitude);
             $info = new Info($faker->text(25), $faker->text(150), 'https://placekitten.com/g/200/300');
             $createAdvertisement = new CreateAdvertisement($info, $location, $customer);
 
             $this->advertisementService->create($createAdvertisement);
 
-            $count--;
+            --$count;
 
             $progressBar->advance();
         }
 
         $progressBar->finish();
 
+        $io->writeln('');
         $io->success('Done.');
 
         return Command::SUCCESS;

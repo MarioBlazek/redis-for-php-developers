@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Factory\RedisConnectionFactory;
@@ -25,17 +27,12 @@ abstract class BaseService
 
     /**
      * BaseService constructor.
-     *
-     * @param \App\Factory\RedisConnectionFactory $connectionFactory
-     * @param \App\Util\KeyGenerator $keyGenerator
-     * @param \App\Util\DataMapper $dataMapper
      */
     public function __construct(
         RedisConnectionFactory $connectionFactory,
         KeyGenerator $keyGenerator,
         DataMapper $dataMapper
-    )
-    {
+    ) {
         $this->redis = $connectionFactory->getRedis();
         $this->keyGenerator = $keyGenerator;
         $this->dataMapper = $dataMapper;

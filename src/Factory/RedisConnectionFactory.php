@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Factory;
 
 use Redis;
@@ -21,7 +23,7 @@ class RedisConnectionFactory
         $this->options = array_merge(
             [
                 'host' => '127.0.0.1',
-                'port' => 6379
+                'port' => 6379,
             ],
             $options
         );

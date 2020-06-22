@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Exception\ApiLimitReachedException;
@@ -11,10 +13,11 @@ class ApiRateLimiterService extends BaseService
     {
         $key = $this->keyGenerator->getRateLimiterKey($customer, $interval, $maxHits);
 
-        $hits = (int)$this->redis->get($key);
+        $hits = (int) $this->redis->get($key);
 
         return $maxHits - $hits;
     }
+
     public function hit(Customer $customer, int $interval, int $maxHits): int
     {
         $key = $this->keyGenerator->getRateLimiterKey($customer, $interval, $maxHits);
