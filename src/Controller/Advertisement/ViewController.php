@@ -27,7 +27,7 @@ class ViewController extends AbstractController
         AdvertisementService $advertisementService,
         MostPopularAdvertisementService $mostPopularAdvertisementService,
         DataMapper $dataMapper, string $id
-    ) {
+    ): JsonResponse {
         $identifier = new AdvertisementId($id);
 
         try {

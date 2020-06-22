@@ -7,6 +7,7 @@ namespace App\Controller\Advertisement;
 use App\Service\AdvertisementService;
 use App\Value\AdvertisementId;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RemoveController extends AbstractController
@@ -18,7 +19,7 @@ class RemoveController extends AbstractController
      *      name="mb_secure_advertisement_remove"
      * )
      */
-    public function remove(AdvertisementService $advertisementService, string $id)
+    public function remove(AdvertisementService $advertisementService, string $id): JsonResponse
     {
         $identifier = new AdvertisementId($id);
 

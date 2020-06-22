@@ -6,6 +6,7 @@ namespace App\Controller\Advertisement;
 
 use App\Service\AdvertisementService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ListController extends AbstractController
@@ -18,7 +19,7 @@ class ListController extends AbstractController
      *      name="mb_secure_advertisements"
      * )
      */
-    public function view(AdvertisementService $advertisementService, int $limit = 100, int $offset = 0)
+    public function view(AdvertisementService $advertisementService, int $limit = 100, int $offset = 0): JsonResponse
     {
         $list = $advertisementService->getList($limit, $offset);
 

@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-redis": "*",
+        "ext-mbstring": "*",
         "doctrine/annotations": "^1.10",
         "fzaninotto/faker": "^1.9",
         "ramsey/uuid": "^4.0",

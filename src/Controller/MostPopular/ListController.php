@@ -6,6 +6,7 @@ namespace App\Controller\MostPopular;
 
 use App\Service\MostPopularAdvertisementService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ListController extends AbstractController
@@ -18,7 +19,7 @@ class ListController extends AbstractController
      *      name="mb_secure_most_popular"
      * )
      */
-    public function view(MostPopularAdvertisementService $mostPopularAdvertisementService, int $limit = 100)
+    public function view(MostPopularAdvertisementService $mostPopularAdvertisementService, int $limit = 100): JsonResponse
     {
         $list = $mostPopularAdvertisementService->getMostPopular($limit);
 
