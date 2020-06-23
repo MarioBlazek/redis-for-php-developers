@@ -34,8 +34,8 @@ class DataMapper
         );
 
         $location = new Location(
-            $data['latitude'],
-            $data['longitude']
+            (float)$data['latitude'],
+            (float)$data['longitude']
         );
 
         $customer = new Customer(
